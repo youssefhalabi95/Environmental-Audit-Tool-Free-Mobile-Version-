@@ -1,14 +1,14 @@
-from flask import Flask, render_template, request, send_file, redirect, url_for
+from flask import Flask, render_template, request, send_file
 from openpyxl import Workbook
 from io import BytesIO
-from datetime import datetime
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.pagesizes import A4
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib.units import cm
 
 app = Flask(__name__)
 
-
-# ---------------------------------------------------------
-# PREDEFINED AUDIT CHECKLIST
-# ---------------------------------------------------------
 
 CHECKLIST = {
 
@@ -134,166 +134,273 @@ CHECKLIST = {
 }
 
 
-# ---------------------------------------------------------
-# LANDING PAGE
-# ---------------------------------------------------------
-
 @app.route("/")
 def landing():
-    return render_template("landing.html")
+    return render_template(
+        "landing.html",
+        categories=list(CHECKLIST.keys())
+    )
 
-
-# ---------------------------------------------------------
-# AUDIT TOOL
-# ---------------------------------------------------------
 
 @app.route("/tool")
 def tool():
-    categories = list(CHECKLIST.keys())
     return render_template(
         "index.html",
-        categories=categories,
+        categories=list(CHECKLIST.keys()),
         checklist=CHECKLIST
     )
+
+
+def get_audit_data():
+
+    questions = request.form.getlist("question")
+    categories = request.form.getlist("category")
+    statuses = request.form.getlist("status")
+    findings = request.form.getlist("finding")
+    actions = request.form.getlist("action")
+    responsible = request.form.getlist("responsible")
+    target_dates = request.form.getlist("target_date")
+
+    rows = []
+
+    for i, question in enumerate(questions):
+
+        rows.append({
+            "no": i + 1,
+            "category": categories[i] if i < len(categories) else "",
+            "question": question,
+            "status": statuses[i] if i < len(statuses) else "",
+            "finding": findings[i] if i < len(findings) else "",
+            "action": actions[i] if i < len(actions) else "",
+            "responsible": responsible[i] if i < len(responsible) else "",
+            "target_date": target_dates[i] if i < len(target_dates) else ""
+        })
+
+    return rows
+
+
+def get_summary(rows):
+
+    compliant = sum(
+        r["status"] == "Compliant"
+        for r in rows
+    )
+
+    partial = sum(
+        r["status"] == "Partially Compliant"
+        for r in rows
+    )
+
+    non_compliant = sum(
+        r["status"] == "Non-Compliant"
+        for r in rows
+    )
+
+    na = sum(
+        r["status"] == "N/A"
+        for r in rows
+    )
+
+    applicable = compliant + partial + non_compliant
+
+    if applicable:
+        score = round(
+            ((compliant + partial * 0.5) / applicable) * 100,
+            1
+        )
+    else:
+        score = 0
+
+    return compliant, partial, non_compliant, na, score
 
 
 # ---------------------------------------------------------
 # EXCEL EXPORT
 # ---------------------------------------------------------
 
-@app.route("/export", methods=["POST"])
-def export():
+@app.route("/export/excel", methods=["POST"])
+def export_excel():
 
-    project_name = request.form.get("project_name", "")
-    site_name = request.form.get("site_name", "")
-    auditor_name = request.form.get("auditor_name", "")
-    audit_date = request.form.get("audit_date", "")
-    
+    rows = get_audit_data()
+
+    project_name = request.form.get(
+        "project_name", ""
+    )
+
+    site_name = request.form.get(
+        "site_name", ""
+    )
+
+    auditor_name = request.form.get(
+        "auditor_name", ""
+    )
+
+    audit_date = request.form.get(
+        "audit_date", ""
+    )
+
+    selected_categories = request.form.getlist(
+        "selected_category"
+    )
+
     wb = Workbook()
 
-    # -----------------------------------------------------
-    # Summary sheet
-    # -----------------------------------------------------
-
     ws = wb.active
+
     ws.title = "Audit Summary"
 
     ws["A1"] = "Environmental Audit Checklist"
-    ws["A3"] = "Project"
-    ws["B3"] = project_name
 
-    ws["A4"] = "Site"
-    ws["B4"] = site_name
+    info = [
 
-    ws["A5"] = "Auditor"
-    ws["B5"] = auditor_name
+        ("Project", project_name),
 
-    ws["A6"] = "Audit Date"
-    ws["B6"] = audit_date
+        ("Site / Location", site_name),
 
-    # Count statuses
-    statuses = request.form.getlist("status")
-    
-    compliant = statuses.count("Compliant")
-    partial = statuses.count("Partially Compliant")
-    non_compliant = statuses.count("Non-Compliant")
-    na = statuses.count("N/A")
+        ("Auditor", auditor_name),
 
-    ws["A8"] = "Summary"
-    ws["A9"] = "Compliant"
-    ws["B9"] = compliant
+        ("Audit Date", audit_date),
 
-    ws["A10"] = "Partially Compliant"
-    ws["B10"] = partial
-
-    ws["A11"] = "Non-Compliant"
-    ws["B11"] = non_compliant
-
-    ws["A12"] = "N/A"
-    ws["B12"] = na
-
-    applicable = compliant + partial + non_compliant
-
-    if applicable > 0:
-        compliance_percentage = round(
-            ((compliant + (partial * 0.5)) / applicable) * 100,
-            1
+        (
+            "Selected Categories",
+            ", ".join(selected_categories)
         )
-    else:
-        compliance_percentage = 0
 
-    ws["A14"] = "Compliance Score"
-    ws["B14"] = f"{compliance_percentage}%"
-
-    # -----------------------------------------------------
-    # Detailed sheet
-    # -----------------------------------------------------
-
-    detail = wb.create_sheet("Audit Findings")
-
-    headers = [
-        "No.",
-        "Category",
-        "Audit Question",
-        "Status",
-        "Finding / Observation",
-        "Corrective Action",
-        "Responsible Person",
-        "Target Date"
     ]
 
-    for col, header in enumerate(headers, start=1):
-        detail.cell(row=1, column=col).value = header
+    for i, (label, value) in enumerate(
+        info,
+        start=3
+    ):
 
-    questions = request.form.getlist("question")
-    categories = request.form.getlist("category")
-    findings = request.form.getlist("finding")
-    actions = request.form.getlist("action")
-    responsible = request.form.getlist("responsible")
-    target_dates = request.form.getlist("target_date")
+        ws.cell(i, 1).value = label
+        ws.cell(i, 2).value = value
 
-    for i in range(len(questions)):
 
-        row = i + 2
+    compliant, partial, non_compliant, na, score = \
+        get_summary(rows)
 
-        detail.cell(row=row, column=1).value = i + 1
-        detail.cell(row=row, column=2).value = categories[i]
-        detail.cell(row=row, column=3).value = questions[i]
-        detail.cell(row=row, column=4).value = statuses[i]
-        detail.cell(row=row, column=5).value = findings[i]
-        detail.cell(row=row, column=6).value = actions[i]
-        detail.cell(row=row, column=7).value = responsible[i]
-        detail.cell(row=row, column=8).value = target_dates[i]
 
-    # -----------------------------------------------------
-    # Formatting
-    # -----------------------------------------------------
+    summary = [
+
+        ("Compliant", compliant),
+
+        ("Partially Compliant", partial),
+
+        ("Non-Compliant", non_compliant),
+
+        ("N/A", na),
+
+        ("Compliance Score", f"{score}%")
+
+    ]
+
+
+    for i, (label, value) in enumerate(
+        summary,
+        start=9
+    ):
+
+        ws.cell(i, 1).value = label
+        ws.cell(i, 2).value = value
+
+
+    detail = wb.create_sheet(
+        "Audit Findings"
+    )
+
+
+    headers = [
+
+        "No.",
+
+        "Category",
+
+        "Audit Question",
+
+        "Status",
+
+        "Finding / Observation",
+
+        "Corrective Action",
+
+        "Responsible Person",
+
+        "Target Date"
+
+    ]
+
+
+    for col, header in enumerate(
+        headers,
+        start=1
+    ):
+
+        detail.cell(
+            1,
+            col
+        ).value = header
+
+
+    for row_num, item in enumerate(
+        rows,
+        start=2
+    ):
+
+        values = [
+
+            item["no"],
+
+            item["category"],
+
+            item["question"],
+
+            item["status"],
+
+            item["finding"],
+
+            item["action"],
+
+            item["responsible"],
+
+            item["target_date"]
+
+        ]
+
+
+        for col, value in enumerate(
+            values,
+            start=1
+        ):
+
+            detail.cell(
+                row_num,
+                col
+            ).value = value
+
 
     for sheet in wb.worksheets:
 
         for column in sheet.columns:
 
-            max_length = 0
-            column_letter = column[0].column_letter
+            max_length = max(
+                (
+                    len(str(cell.value))
+                    for cell in column
+                    if cell.value
+                ),
+                default=0
+            )
 
-            for cell in column:
-
-                if cell.value:
-                    max_length = max(
-                        max_length,
-                        len(str(cell.value))
-                    )
-
-            sheet.column_dimensions[column_letter].width = min(
+            sheet.column_dimensions[
+                column[0].column_letter
+            ].width = min(
                 max_length + 2,
                 50
             )
 
         sheet.freeze_panes = "A2"
 
-    # -----------------------------------------------------
-    # Create downloadable Excel file
-    # -----------------------------------------------------
 
     output = BytesIO()
 
@@ -301,13 +408,346 @@ def export():
 
     output.seek(0)
 
-    filename = "Environmental_Audit_Checklist.xlsx"
 
     return send_file(
+
         output,
+
         as_attachment=True,
-        download_name=filename,
-        mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+        download_name=
+        "Environmental_Audit_Checklist.xlsx",
+
+        mimetype=
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+    )
+
+
+# ---------------------------------------------------------
+# PDF EXPORT
+# ---------------------------------------------------------
+
+@app.route("/export/pdf", methods=["POST"])
+def export_pdf():
+
+    rows = get_audit_data()
+
+    project_name = request.form.get(
+        "project_name", ""
+    )
+
+    site_name = request.form.get(
+        "site_name", ""
+    )
+
+    auditor_name = request.form.get(
+        "auditor_name", ""
+    )
+
+    audit_date = request.form.get(
+        "audit_date", ""
+    )
+
+    selected_categories = request.form.getlist(
+        "selected_category"
+    )
+
+
+    compliant, partial, non_compliant, na, score = \
+        get_summary(rows)
+
+
+    output = BytesIO()
+
+
+    doc = SimpleDocTemplate(
+
+        output,
+
+        pagesize=A4,
+
+        rightMargin=1.3 * cm,
+
+        leftMargin=1.3 * cm,
+
+        topMargin=1.3 * cm,
+
+        bottomMargin=1.3 * cm
+
+    )
+
+
+    styles = getSampleStyleSheet()
+
+    title = styles["Title"]
+
+    heading = styles["Heading2"]
+
+    body = styles["BodyText"]
+
+    body.leading = 13
+
+
+    story = [
+
+        Paragraph(
+            "Environmental Audit Checklist",
+            title
+        ),
+
+        Spacer(1, 10),
+
+        Paragraph(
+            f"<b>Project:</b> {project_name}",
+            body
+        ),
+
+        Paragraph(
+            f"<b>Site / Location:</b> {site_name}",
+            body
+        ),
+
+        Paragraph(
+            f"<b>Auditor:</b> {auditor_name}",
+            body
+        ),
+
+        Paragraph(
+            f"<b>Audit Date:</b> {audit_date}",
+            body
+        ),
+
+        Paragraph(
+            f"<b>Categories:</b> "
+            f"{', '.join(selected_categories)}",
+            body
+        ),
+
+        Spacer(1, 10),
+
+        Paragraph(
+
+            f"<b>Summary:</b> "
+            f"Compliant: {compliant} | "
+            f"Partial: {partial} | "
+            f"Non-Compliant: {non_compliant} | "
+            f"N/A: {na} | "
+            f"Score: {score}%",
+
+            body
+
+        ),
+
+        Spacer(1, 15)
+
+    ]
+
+
+    current_category = None
+
+
+    for item in rows:
+
+        if item["category"] != current_category:
+
+            current_category = item["category"]
+
+            story.append(
+                Paragraph(
+                    current_category,
+                    heading
+                )
+            )
+
+            story.append(
+                Spacer(1, 5)
+            )
+
+
+        data = [
+
+            [
+
+                Paragraph(
+                    "<b>Audit Question</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["question"],
+                    body
+                )
+
+            ],
+
+            [
+
+                Paragraph(
+                    "<b>Status</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["status"] or "Not assessed",
+                    body
+                )
+
+            ],
+
+            [
+
+                Paragraph(
+                    "<b>Finding</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["finding"] or "-",
+                    body
+                )
+
+            ],
+
+            [
+
+                Paragraph(
+                    "<b>Corrective Action</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["action"] or "-",
+                    body
+                )
+
+            ],
+
+            [
+
+                Paragraph(
+                    "<b>Responsible</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["responsible"] or "-",
+                    body
+                )
+
+            ],
+
+            [
+
+                Paragraph(
+                    "<b>Target Date</b>",
+                    body
+                ),
+
+                Paragraph(
+                    item["target_date"] or "-",
+                    body
+                )
+
+            ]
+
+        ]
+
+
+        table = Table(
+
+            data,
+
+            colWidths=[
+                3.3 * cm,
+                14.7 * cm
+            ]
+
+        )
+
+
+        table.setStyle(
+
+            TableStyle([
+
+                (
+                    "GRID",
+                    (0, 0),
+                    (-1, -1),
+                    0.5,
+                    colors.grey
+                ),
+
+                (
+                    "VALIGN",
+                    (0, 0),
+                    (-1, -1),
+                    "TOP"
+                ),
+
+                (
+                    "BACKGROUND",
+                    (0, 0),
+                    (0, -1),
+                    colors.whitesmoke
+                ),
+
+                (
+                    "LEFTPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    5
+                ),
+
+                (
+                    "RIGHTPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    5
+                ),
+
+                (
+                    "TOPPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    5
+                ),
+
+                (
+                    "BOTTOMPADDING",
+                    (0, 0),
+                    (-1, -1),
+                    5
+                )
+
+            ])
+
+        )
+
+
+        story.append(table)
+
+        story.append(
+            Spacer(1, 10)
+        )
+
+
+    doc.build(story)
+
+    output.seek(0)
+
+
+    return send_file(
+
+        output,
+
+        as_attachment=True,
+
+        download_name=
+        "Environmental_Audit_Checklist.pdf",
+
+        mimetype="application/pdf"
+
     )
 
 
@@ -317,21 +757,26 @@ def export():
 
 @app.route("/about")
 def about():
-    return render_template("about.html")
+
+    return render_template(
+        "about.html"
+    )
 
 
 # ---------------------------------------------------------
-# PRIVACY POLICY
+# PRIVACY
 # ---------------------------------------------------------
 
 @app.route("/privacy")
 def privacy():
-    return render_template("privacy.html")
 
+    return render_template(
+        "privacy.html"
+    )
 
-# ---------------------------------------------------------
-# RUN APPLICATION
-# ---------------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(
+        debug=True
+    )

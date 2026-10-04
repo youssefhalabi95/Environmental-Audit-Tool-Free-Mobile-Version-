@@ -3,591 +3,1166 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>Environmental Audit Checklist</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f6f4;
-            color: #24332a;
-        }
-
-        header {
-            background: #173b2b;
-            color: white;
-            padding: 18px 5%;
-        }
-
-        header a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 30px 20px;
-        }
+<meta charset="UTF-8">
 
-        h1 {
-            margin-bottom: 5px;
-        }
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
-        .subtitle {
-            color: #637069;
-            margin-bottom: 30px;
-        }
+<title>
+Environmental Audit Checklist
+</title>
 
-        .card {
-            background: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
 
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
+<style>
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 6px;
-        }
+* {
+    box-sizing: border-box;
+}
 
-        input,
-        textarea,
-        select {
+body {
 
-            width: 100%;
-            padding: 10px;
+    margin: 0;
 
-            border: 1px solid #ccd5cf;
-            border-radius: 6px;
+    font-family: Arial, sans-serif;
 
-            font-size: 14px;
-        }
+    background: #f3f6f4;
 
-        textarea {
-            min-height: 75px;
-            resize: vertical;
-        }
+    color: #24332a;
+}
 
-        .category-title {
-            background: #e8f0eb;
-            padding: 14px;
-            border-radius: 7px;
-            margin-top: 25px;
-        }
+header {
 
-        .question {
+    background: #173b2b;
 
-            border: 1px solid #dce3de;
-            border-radius: 8px;
+    color: white;
 
-            padding: 18px;
-            margin-top: 12px;
+    padding: 18px 5%;
+}
 
-            background: #fff;
-        }
+header a {
 
-        .question-text {
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
+    color: white;
 
-        .question-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+    text-decoration: none;
 
-        .full {
-            grid-column: 1 / -1;
-        }
+    font-weight: bold;
+}
 
-        .summary {
+.container {
 
-            display: grid;
+    max-width: 1100px;
 
-            grid-template-columns:
-                repeat(5, 1fr);
+    margin: auto;
 
-            gap: 10px;
+    padding: 30px 20px;
+}
 
-            margin-bottom: 20px;
-        }
+h1 {
 
-        .summary-box {
+    margin-bottom: 5px;
+}
 
-            background: white;
-            padding: 15px;
+.subtitle {
 
-            border-radius: 8px;
+    color: #637069;
 
-            text-align: center;
+    margin-bottom: 30px;
+}
 
-            border: 1px solid #e0e5e1;
-        }
+.card {
 
-        .summary-number {
-            font-size: 24px;
-            font-weight: bold;
-            margin-top: 5px;
-        }
+    background: white;
 
-        .button {
+    padding: 25px;
 
-            border: none;
+    margin-bottom: 25px;
 
-            padding: 13px 22px;
+    border-radius: 10px;
 
-            border-radius: 6px;
+    box-shadow:
+    0 2px 8px rgba(0,0,0,.06);
+}
 
-            background: #286a46;
+.project-grid {
 
-            color: white;
+    display: grid;
 
-            font-weight: bold;
+    grid-template-columns:
+    repeat(2, 1fr);
 
-            cursor: pointer;
-        }
+    gap: 15px;
+}
 
-        .button:hover {
-            opacity: 0.9;
-        }
+label {
 
-        .secondary {
-            background: #59655e;
-        }
+    display: block;
 
-        .remove-button {
+    font-weight: bold;
 
-            background: #a63d40;
-            color: white;
+    margin-bottom: 6px;
+}
 
-            border: none;
+input,
+textarea,
+select {
 
-            padding: 7px 12px;
+    width: 100%;
 
-            border-radius: 5px;
+    padding: 10px;
 
-            cursor: pointer;
+    border:
+    1px solid #ccd5cf;
 
-            margin-top: 10px;
-        }
+    border-radius: 6px;
 
-        .custom-question {
-            margin-top: 10px;
-        }
+    font-size: 14px;
+}
 
-        .notice {
+textarea {
 
-            padding: 15px;
+    min-height: 75px;
 
-            background: #eef5f0;
+    resize: vertical;
+}
 
-            border-left: 4px solid #286a46;
+.category-picker {
 
-            margin-bottom: 20px;
-        }
+    display: grid;
 
-        @media (max-width: 700px) {
+    grid-template-columns:
+    repeat(2, 1fr);
 
-            .project-grid,
-            .question-grid {
-                grid-template-columns: 1fr;
-            }
+    gap: 10px;
+}
 
-            .summary {
-                grid-template-columns: 1fr 1fr;
-            }
+.category-option {
 
-            .full {
-                grid-column: auto;
-            }
+    border:
+    1px solid #d8e0da;
 
-        }
+    border-radius: 7px;
 
-    </style>
+    padding: 12px;
+
+    background: #fafcfb;
+}
+
+.category-option input {
+
+    width: auto;
+
+    margin-right: 8px;
+}
+
+.category-title {
+
+    background: #e8f0eb;
+
+    padding: 14px;
+
+    border-radius: 7px;
+
+    margin-top: 25px;
+}
+
+.question {
+
+    border:
+    1px solid #dce3de;
+
+    border-radius: 8px;
+
+    padding: 18px;
+
+    margin-top: 12px;
+
+    background: #fff;
+}
+
+.question-text {
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+}
+
+.question-grid {
+
+    display: grid;
+
+    grid-template-columns:
+    1fr 1fr;
+
+    gap: 12px;
+}
+
+.full {
+
+    grid-column: 1 / -1;
+}
+
+.summary {
+
+    display: grid;
+
+    grid-template-columns:
+    repeat(5, 1fr);
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.summary-box {
+
+    background: white;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    text-align: center;
+
+    border:
+    1px solid #e0e5e1;
+}
+
+.summary-number {
+
+    font-size: 24px;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+.button {
+
+    border: none;
+
+    padding: 13px 22px;
+
+    border-radius: 6px;
+
+    background: #286a46;
+
+    color: white;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.button:hover {
+
+    opacity: .9;
+}
+
+.secondary {
+
+    background: #59655e;
+}
+
+.pdf {
+
+    background: #7b3f3f;
+}
+
+.notice {
+
+    padding: 15px;
+
+    background: #eef5f0;
+
+    border-left:
+    4px solid #286a46;
+
+    margin-bottom: 20px;
+}
+
+.empty {
+
+    padding: 20px;
+
+    background: #fff7e6;
+
+    border-left:
+    4px solid #c58a20;
+
+    border-radius: 6px;
+
+    display: none;
+}
+
+.actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+}
+
+
+@media(max-width:700px) {
+
+    .project-grid,
+    .question-grid,
+    .category-picker {
+
+        grid-template-columns: 1fr;
+    }
+
+    .summary {
+
+        grid-template-columns:
+        1fr 1fr;
+    }
+
+    .full {
+
+        grid-column: auto;
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
 
+
 <header>
-    <a href="/">Environmental Audit Toolkit</a>
+
+<a href="/">
+Environmental Audit Toolkit
+</a>
+
 </header>
+
 
 <div class="container">
 
-    <h1>Environmental Audit Checklist</h1>
-
-    <p class="subtitle">
-        Complete the audit checklist and export your results to Excel.
-    </p>
-
-    <form method="POST" action="/export">
 
-        <!-- PROJECT INFORMATION -->
+<h1>
+Environmental Audit Checklist
+</h1>
 
-        <div class="card">
 
-            <h2>Project Information</h2>
+<p class="subtitle">
 
-            <div class="project-grid">
+Select the environmental topics
+relevant to your audit.
 
-                <div>
-                    <label>Project Name</label>
-                    <input
-                        type="text"
-                        name="project_name"
-                        placeholder="Enter project name">
-                </div>
+</p>
 
-                <div>
-                    <label>Site / Location</label>
-                    <input
-                        type="text"
-                        name="site_name"
-                        placeholder="Enter site location">
-                </div>
 
-                <div>
-                    <label>Auditor</label>
-                    <input
-                        type="text"
-                        name="auditor_name"
-                        placeholder="Auditor name">
-                </div>
+<form id="auditForm" method="POST">
 
-                <div>
-                    <label>Audit Date</label>
-                    <input
-                        type="date"
-                        name="audit_date">
-                </div>
 
-            </div>
+<!-- PROJECT INFORMATION -->
 
-        </div>
+<div class="card">
 
+<h2>
+1. Project Information
+</h2>
 
-        <!-- SUMMARY -->
 
-        <div class="card">
+<div class="project-grid">
 
-            <h2>Audit Summary</h2>
 
-            <div class="summary">
+<div>
 
-                <div class="summary-box">
-                    <div>Questions</div>
-                    <div class="summary-number"
-                         id="totalQuestions">
-                        0
-                    </div>
-                </div>
+<label>
+Project Name
+</label>
 
-                <div class="summary-box">
-                    <div>Compliant</div>
-                    <div class="summary-number"
-                         id="compliantCount">
-                        0
-                    </div>
-                </div>
+<input
+type="text"
+name="project_name"
+placeholder="Enter project name">
 
-                <div class="summary-box">
-                    <div>Partial</div>
-                    <div class="summary-number"
-                         id="partialCount">
-                        0
-                    </div>
-                </div>
+</div>
 
-                <div class="summary-box">
-                    <div>Non-Compliant</div>
-                    <div class="summary-number"
-                         id="nonCompliantCount">
-                        0
-                    </div>
-                </div>
 
-                <div class="summary-box">
-                    <div>Score</div>
-                    <div class="summary-number"
-                         id="score">
-                        0%
-                    </div>
-                </div>
+<div>
 
-            </div>
+<label>
+Site / Location
+</label>
 
-        </div>
+<input
+type="text"
+name="site_name"
+placeholder="Enter site location">
 
+</div>
 
-        <!-- CHECKLIST -->
 
-        <div class="card">
+<div>
 
-            <h2>Audit Checklist</h2>
+<label>
+Auditor
+</label>
 
-            <div class="notice">
+<input
+type="text"
+name="auditor_name"
+placeholder="Auditor name">
 
-                Select a compliance status for each applicable
-                question and record findings or corrective actions
-                where necessary.
+</div>
 
-            </div>
 
+<div>
 
-            {% for category, questions in checklist.items() %}
+<label>
+Audit Date
+</label>
 
-                <div class="category-title">
+<input
+type="date"
+name="audit_date">
 
-                    <h3>{{ category }}</h3>
+</div>
 
-                </div>
 
+</div>
 
-                {% for question in questions %}
+</div>
 
-                    <div class="question">
 
-                        <div class="question-text">
+<!-- CATEGORY SELECTION -->
 
-                            {{ question }}
+<div class="card">
 
-                        </div>
+<h2>
+2. Select Audit Categories
+</h2>
 
-                        <input
-                            type="hidden"
-                            name="category"
-                            value="{{ category }}">
 
-                        <input
-                            type="hidden"
-                            name="question"
-                            value="{{ question }}">
+<div class="notice">
 
+Choose one or more topics.
+The checklist below will contain
+only the categories you select.
 
-                        <div class="question-grid">
+</div>
 
-                            <div>
 
-                                <label>Status</label>
+<div class="category-picker">
 
-                                <select
-                                    name="status"
-                                    class="status-select">
 
-                                    <option value="">
-                                        Select status
-                                    </option>
+{% for category in categories %}
 
-                                    <option value="Compliant">
-                                        Compliant
-                                    </option>
+<label class="category-option">
 
-                                    <option value="Partially Compliant">
-                                        Partially Compliant
-                                    </option>
+<input
+type="checkbox"
+name="selected_category"
+value="{{ category }}"
+onchange="buildChecklist()">
 
-                                    <option value="Non-Compliant">
-                                        Non-Compliant
-                                    </option>
+{{ category }}
 
-                                    <option value="N/A">
-                                        N/A
-                                    </option>
+</label>
 
-                                </select>
+{% endfor %}
 
-                            </div>
 
+</div>
 
-                            <div>
+</div>
 
-                                <label>Responsible Person</label>
 
-                                <input
-                                    type="text"
-                                    name="responsible"
-                                    placeholder="Responsible person">
+<div id="emptyMessage" class="empty">
 
-                            </div>
+Please select at least one audit category
+to generate the checklist.
 
+</div>
 
-                            <div class="full">
 
-                                <label>
-                                    Finding / Observation
-                                </label>
+<!-- CHECKLIST -->
 
-                                <textarea
-                                    name="finding"
-                                    placeholder="Record your observation or finding"></textarea>
+<div
+class="card"
+id="checklistCard"
+style="display:none;"
+>
 
-                            </div>
 
+<h2>
+3. Audit Checklist
+</h2>
 
-                            <div class="full">
 
-                                <label>
-                                    Corrective Action
-                                </label>
+<div class="notice">
 
-                                <textarea
-                                    name="action"
-                                    placeholder="Required corrective action"></textarea>
+For each question, select a status and
+record findings or corrective actions
+where applicable.
 
-                            </div>
+</div>
 
 
-                            <div>
+<div id="checklistContainer"></div>
 
-                                <label>
-                                    Target Date
-                                </label>
 
-                                <input
-                                    type="date"
-                                    name="target_date">
+<h3 style="margin-top:30px;">
 
-                            </div>
+Custom Audit Questions
 
-                        </div>
+</h3>
 
-                    </div>
 
-                {% endfor %}
+<div id="customQuestions"></div>
 
-            {% endfor %}
 
+<button
+type="button"
+class="button secondary"
+onclick="addCustomQuestion()">
 
-            <!-- CUSTOM QUESTIONS -->
++ Add Custom Question
 
-            <h2 style="margin-top:35px;">
-                Custom Audit Questions
-            </h2>
+</button>
 
-            <div id="customQuestions"></div>
 
-            <button
-                type="button"
-                class="button secondary"
-                onclick="addCustomQuestion()">
+</div>
 
-                + Add Custom Question
 
-            </button>
+<!-- SUMMARY -->
 
-        </div>
+<div
+class="card"
+id="summaryCard"
+style="display:none;"
+>
 
 
-        <button
-            type="submit"
-            class="button">
+<h2>
+4. Audit Summary
+</h2>
 
-            Download Excel Audit
 
-        </button>
+<div class="summary">
 
-    </form>
+
+<div class="summary-box">
+
+<div>
+Questions
+</div>
+
+<div
+class="summary-number"
+id="totalQuestions">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="summary-box">
+
+<div>
+Compliant
+</div>
+
+<div
+class="summary-number"
+id="compliantCount">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="summary-box">
+
+<div>
+Partial
+</div>
+
+<div
+class="summary-number"
+id="partialCount">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="summary-box">
+
+<div>
+Non-Compliant
+</div>
+
+<div
+class="summary-number"
+id="nonCompliantCount">
+
+0
+
+</div>
+
+</div>
+
+
+<div class="summary-box">
+
+<div>
+Score
+</div>
+
+<div
+class="summary-number"
+id="score">
+
+0%
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- EXPORT -->
+
+<div
+class="actions"
+id="exportButtons"
+style="display:none;"
+>
+
+
+<button
+type="button"
+class="button"
+onclick="submitExport('/export/excel')">
+
+Download Excel
+
+</button>
+
+
+<button
+type="button"
+class="button pdf"
+onclick="submitExport('/export/pdf')">
+
+Download PDF
+
+</button>
+
+
+</div>
+
+
+</form>
+
 
 </div>
 
 
 <script>
 
-    function updateSummary() {
 
-        const statuses =
-            document.querySelectorAll(".status-select");
+const checklist =
+{{ checklist|tojson }};
 
-        let compliant = 0;
-        let partial = 0;
-        let nonCompliant = 0;
 
-        statuses.forEach(function(select) {
+function buildChecklist() {
 
-            if (select.value === "Compliant") {
-                compliant++;
-            }
 
-            if (select.value === "Partially Compliant") {
-                partial++;
-            }
+    const selected = [
 
-            if (select.value === "Non-Compliant") {
-                nonCompliant++;
-            }
+        ...document.querySelectorAll(
+            'input[name="selected_category"]:checked'
+        )
 
-        });
+    ].map(
+        x => x.value
+    );
 
-        const total = statuses.length;
 
-        const applicable =
-            compliant + partial + nonCompliant;
+    const container =
+        document.getElementById(
+            "checklistContainer"
+        );
 
-        let score = 0;
 
-        if (applicable > 0) {
+    container.innerHTML = "";
 
-            score =
-                ((compliant + partial * 0.5)
-                / applicable) * 100;
+
+    selected.forEach(
+        category => {
+
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+
+            title.className =
+                "category-title";
+
+
+            title.innerHTML =
+                "<h3>" +
+                escapeHtml(category) +
+                "</h3>";
+
+
+            container.appendChild(
+                title
+            );
+
+
+            checklist[category].forEach(
+                question => {
+
+                    container.appendChild(
+                        createQuestion(
+                            category,
+                            question
+                        )
+                    );
+
+                }
+            );
+
+
+        }
+    );
+
+
+    const hasCategories =
+        selected.length > 0;
+
+
+    document.getElementById(
+        "emptyMessage"
+    ).style.display =
+        hasCategories
+        ? "none"
+        : "block";
+
+
+    document.getElementById(
+        "checklistCard"
+    ).style.display =
+        hasCategories
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "summaryCard"
+    ).style.display =
+        hasCategories
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+        "exportButtons"
+    ).style.display =
+        hasCategories
+        ? "flex"
+        : "none";
+
+
+    updateSummary();
+
+}
+
+
+function createQuestion(
+    category,
+    question
+) {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "question";
+
+
+    div.innerHTML = `
+
+        <div class="question-text">
+
+            ${escapeHtml(question)}
+
+        </div>
+
+
+        <input
+            type="hidden"
+            name="category"
+            value="${escapeAttr(category)}"
+        >
+
+
+        <input
+            type="hidden"
+            name="question"
+            value="${escapeAttr(question)}"
+        >
+
+
+        <div class="question-grid">
+
+
+            <div>
+
+                <label>
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="status-select"
+                >
+
+                    <option value="">
+                        Select status
+                    </option>
+
+                    <option value="Compliant">
+                        Compliant
+                    </option>
+
+                    <option value="Partially Compliant">
+                        Partially Compliant
+                    </option>
+
+                    <option value="Non-Compliant">
+                        Non-Compliant
+                    </option>
+
+                    <option value="N/A">
+                        N/A
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Responsible Person
+                </label>
+
+                <input
+                    type="text"
+                    name="responsible"
+                    placeholder="Responsible person"
+                >
+
+            </div>
+
+
+            <div class="full">
+
+                <label>
+                    Finding / Observation
+                </label>
+
+                <textarea
+                    name="finding"
+                    placeholder="Record your observation or finding"
+                ></textarea>
+
+            </div>
+
+
+            <div class="full">
+
+                <label>
+                    Corrective Action
+                </label>
+
+                <textarea
+                    name="action"
+                    placeholder="Required corrective action"
+                ></textarea>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Target Date
+                </label>
+
+                <input
+                    type="date"
+                    name="target_date"
+                >
+
+            </div>
+
+
+        </div>
+
+    `;
+
+
+    return div;
+
+}
+
+
+function addCustomQuestion() {
+
+
+    const div =
+        document.createElement(
+            "div"
+        );
+
+
+    div.className =
+        "question custom-question";
+
+
+    div.innerHTML = `
+
+        <div class="question-grid">
+
+
+            <div class="full">
+
+                <label>
+                    Custom Question
+                </label>
+
+                <input
+                    type="text"
+                    name="question"
+                    placeholder="Enter audit question"
+                    required
+                >
+
+                <input
+                    type="hidden"
+                    name="category"
+                    value="Custom"
+                >
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Status
+                </label>
+
+                <select
+                    name="status"
+                    class="status-select"
+                >
+
+                    <option value="">
+                        Select status
+                    </option>
+
+                    <option value="Compliant">
+                        Compliant
+                    </option>
+
+                    <option value="Partially Compliant">
+                        Partially Compliant
+                    </option>
+
+                    <option value="Non-Compliant">
+                        Non-Compliant
+                    </option>
+
+                    <option value="N/A">
+                        N/A
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Responsible Person
+                </label>
+
+                <input
+                    type="text"
+                    name="responsible"
+                >
+
+            </div>
+
+
+            <div class="full">
+
+                <label>
+                    Finding / Observation
+                </label>
+
+                <textarea
+                    name="finding"
+                ></textarea>
+
+            </div>
+
+
+            <div class="full">
+
+                <label>
+                    Corrective Action
+                </label>
+
+                <textarea
+                    name="action"
+                ></textarea>
+
+            </div>
+
+
+            <div>
+
+                <label>
+                    Target Date
+                </label>
+
+                <input
+                    type="date"
+                    name="target_date"
+                >
+
+            </div>
+
+
+        </div>
+
+
+        <button
+            type="button"
+            class="button secondary"
+            style="margin-top:10px;"
+            onclick="
+                this.closest('.question').remove();
+                updateSummary();
+            "
+        >
+
+            Remove
+
+        </button>
+
+    `;
+
+
+    document
+        .getElementById(
+            "customQuestions"
+        )
+        .appendChild(div);
+
+
+    updateSummary();
+
+}
+
+
+document.addEventListener(
+    "change",
+    function(event) {
+
+        if (
+            event.target.classList.contains(
+                "status-select"
+            )
+        ) {
+
+            updateSummary();
 
         }
 
-        document.getElementById(
-            "totalQuestions"
-        ).textContent = total;
-
-        document.getElementById(
-            "compliantCount"
-        ).textContent = compliant;
-
-        document.getElementById(
-            "partialCount"
-        ).textContent = partial;
-
-        document.getElementById(
-            "nonCompliantCount"
-        ).textContent = nonCompliant;
-
-        document.getElementById(
-            "score"
-        ).textContent = score.toFixed(1) + "%";
     }
+);
 
 
-    document.addEventListener(
-        "change",
-        function(event) {
+function updateSummary() {
+
+
+    const statuses =
+        document.querySelectorAll(
+            ".status-select"
+        );
+
+
+    let compliant = 0;
+
+    let partial = 0;
+
+    let nonCompliant = 0;
+
+
+    statuses.forEach(
+        select => {
 
             if (
-                event.target.classList.contains(
-                    "status-select"
-                )
+                select.value ===
+                "Compliant"
             ) {
 
-                updateSummary();
+                compliant++;
+
+            }
+
+
+            if (
+                select.value ===
+                "Partially Compliant"
+            ) {
+
+                partial++;
+
+            }
+
+
+            if (
+                select.value ===
+                "Non-Compliant"
+            ) {
+
+                nonCompliant++;
 
             }
 
@@ -595,146 +1170,139 @@
     );
 
 
-    function addCustomQuestion() {
-
-        const container =
-            document.getElementById(
-                "customQuestions"
-            );
-
-        const div =
-            document.createElement("div");
-
-        div.className = "question custom-question";
-
-        div.innerHTML = `
-
-            <div class="question-grid">
-
-                <div class="full">
-
-                    <label>
-                        Custom Question
-                    </label>
-
-                    <input
-                        type="text"
-                        name="question"
-                        placeholder="Enter audit question"
-                        required>
-
-                    <input
-                        type="hidden"
-                        name="category"
-                        value="Custom">
-
-                </div>
+    const total =
+        statuses.length;
 
 
-                <div>
-
-                    <label>Status</label>
-
-                    <select
-                        name="status"
-                        class="status-select">
-
-                        <option value="">
-                            Select status
-                        </option>
-
-                        <option value="Compliant">
-                            Compliant
-                        </option>
-
-                        <option value="Partially Compliant">
-                            Partially Compliant
-                        </option>
-
-                        <option value="Non-Compliant">
-                            Non-Compliant
-                        </option>
-
-                        <option value="N/A">
-                            N/A
-                        </option>
-
-                    </select>
-
-                </div>
+    const applicable =
+        compliant +
+        partial +
+        nonCompliant;
 
 
-                <div>
-
-                    <label>
-                        Responsible Person
-                    </label>
-
-                    <input
-                        type="text"
-                        name="responsible">
-
-                </div>
-
-
-                <div class="full">
-
-                    <label>
-                        Finding / Observation
-                    </label>
-
-                    <textarea
-                        name="finding"></textarea>
-
-                </div>
+    const score =
+        applicable
+        ? (
+            (
+                compliant +
+                partial * 0.5
+            )
+            / applicable
+        ) * 100
+        : 0;
 
 
-                <div class="full">
-
-                    <label>
-                        Corrective Action
-                    </label>
-
-                    <textarea
-                        name="action"></textarea>
-
-                </div>
+    document.getElementById(
+        "totalQuestions"
+    ).textContent = total;
 
 
-                <div>
-
-                    <label>
-                        Target Date
-                    </label>
-
-                    <input
-                        type="date"
-                        name="target_date">
-
-                </div>
-
-            </div>
+    document.getElementById(
+        "compliantCount"
+    ).textContent = compliant;
 
 
-            <button
-                type="button"
-                class="remove-button"
-                onclick="this.closest('.question').remove(); updateSummary();">
+    document.getElementById(
+        "partialCount"
+    ).textContent = partial;
 
-                Remove
 
-            </button>
-        `;
+    document.getElementById(
+        "nonCompliantCount"
+    ).textContent =
+        nonCompliant;
 
-        container.appendChild(div);
 
-        updateSummary();
+    document.getElementById(
+        "score"
+    ).textContent =
+        score.toFixed(1) + "%";
+
+}
+
+
+function submitExport(
+    action
+) {
+
+
+    const selected =
+        document.querySelectorAll(
+            'input[name="selected_category"]:checked'
+        );
+
+
+    if (
+        selected.length === 0
+    ) {
+
+        alert(
+            "Please select at least one audit category."
+        );
+
+        return;
+
     }
 
 
-    updateSummary();
+    const form =
+        document.getElementById(
+            "auditForm"
+        );
+
+
+    form.action = action;
+
+
+    form.submit();
+
+}
+
+
+function escapeHtml(
+    value
+) {
+
+
+    return value.replace(
+        /[&<>"']/g,
+        function(m) {
+
+            return {
+
+                "&": "&amp;",
+
+                "<": "&lt;",
+
+                ">": "&gt;",
+
+                '"': "&quot;",
+
+                "'": "&#039;"
+
+            }[m];
+
+        }
+    );
+
+}
+
+
+function escapeAttr(
+    value
+) {
+
+    return escapeHtml(
+        value
+    );
+
+}
+
+
+buildChecklist();
 
 </script>
+
 
 </body>
 
