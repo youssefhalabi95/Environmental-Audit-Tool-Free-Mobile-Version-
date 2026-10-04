@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Environmental Audit Checklist</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f3f6f4;
+            color: #24332a;
+        }
+
+        header {
+            background: #173b2b;
+            color: white;
+            padding: 18px 5%;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px 20px;
+        }
+
+        h1 {
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            color: #637069;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input,
+        textarea,
+        select {
+
+            width: 100%;
+            padding: 10px;
+
+            border: 1px solid #ccd5cf;
+            border-radius: 6px;
+
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 75px;
+            resize: vertical;
+        }
+
+        .category-title {
+            background: #e8f0eb;
+            padding: 14px;
+            border-radius: 7px;
+            margin-top: 25px;
+        }
+
+        .question {
+
+            border: 1px solid #dce3de;
+            border-radius: 8px;
+
+            padding: 18px;
+            margin-top: 12px;
+
+            background: #fff;
+        }
+
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .summary {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap: 10px;
+
+            margin-bottom: 20px;
+        }
+
+        .summary-box {
+
+            background: white;
+            padding: 15px;
+
+            border-radius: 8px;
+
+            text-align: center;
+
+            border: 1px solid #e0e5e1;
+        }
+
+        .summary-number {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        .button {
+
+            border: none;
+
+            padding: 13px 22px;
+
+            border-radius: 6px;
+
+            background: #286a46;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+
+        .secondary {
+            background: #59655e;
+        }
+
+        .remove-button {
+
+            background: #a63d40;
+            color: white;
+
+            border: none;
+
+            padding: 7px 12px;
+
+            border-radius: 5px;
+
+            cursor: pointer;
+
+            margin-top: 10px;
+        }
+
+        .custom-question {
+            margin-top: 10px;
+        }
+
+        .notice {
+
+            padding: 15px;
+
+            background: #eef5f0;
+
+            border-left: 4px solid #286a46;
+
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 700px) {
+
+            .project-grid,
+            .question-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header>
+    <a href="/">Environmental Audit Toolkit</a>
+</header>
+
+<div class="container">
+
+    <h1>Environmental Audit Checklist</h1>
+
+    <p class="subtitle">
+        Complete the audit checklist and export your results to Excel.
+    </p>
+
+    <form method="POST" action="/export">
+
+        <!-- PROJECT INFORMATION -->
+
+        <div class="card">
+
+            <h2>Project Information</h2>
+
+            <div class="project-grid">
+
+                <div>
+                    <label>Project Name</label>
+                    <input
+                        type="text"
+                        name="project_name"
+                        placeholder="Enter project name">
+                </div>
+
+                <div>
+                    <label>Site / Location</label>
+                    <input
+                        type="text"
+                        name="site_name"
+                        placeholder="Enter site location">
+                </div>
+
+                <div>
+                    <label>Auditor</label>
+                    <input
+                        type="text"
+                        name="auditor_name"
+                        placeholder="Auditor name">
+                </div>
+
+                <div>
+                    <label>Audit Date</label>
+                    <input
+                        type="date"
+                        name="audit_date">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="card">
+
+            <h2>Audit Summary</h2>
+
+            <div class="summary">
+
+                <div class="summary-box">
+                    <div>Questions</div>
+                    <div class="summary-number"
+                         id="totalQuestions">
+                        0
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Compliant</div>
+                    <div class="summary-number"
+                         id="compliantCount">
+                        0
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Partial</div>
+                    <div class="summary-number"
+                         id="partialCount">
+                        0
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Non-Compliant</div>
+                    <div class="summary-number"
+                         id="nonCompliantCount">
+                        0
+                    </div>
+                </div>
+
+                <div class="summary-box">
+                    <div>Score</div>
+                    <div class="summary-number"
+                         id="score">
+                        0%
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- CHECKLIST -->
+
+        <div class="card">
+
+            <h2>Audit Checklist</h2>
+
+            <div class="notice">
+
+                Select a compliance status for each applicable
+                question and record findings or corrective actions
+                where necessary.
+
+            </div>
+
+
+            {% for category, questions in checklist.items() %}
+
+                <div class="category-title">
+
+                    <h3>{{ category }}</h3>
+
+                </div>
+
+
+                {% for question in questions %}
+
+                    <div class="question">
+
+                        <div class="question-text">
+
+                            {{ question }}
+
+                        </div>
+
+                        <input
+                            type="hidden"
+                            name="category"
+                            value="{{ category }}">
+
+                        <input
+                            type="hidden"
+                            name="question"
+                            value="{{ question }}">
+
+
+                        <div class="question-grid">
+
+                            <div>
+
+                                <label>Status</label>
+
+                                <select
+                                    name="status"
+                                    class="status-select">
+
+                                    <option value="">
+                                        Select status
+                                    </option>
+
+                                    <option value="Compliant">
+                                        Compliant
+                                    </option>
+
+                                    <option value="Partially Compliant">
+                                        Partially Compliant
+                                    </option>
+
+                                    <option value="Non-Compliant">
+                                        Non-Compliant
+                                    </option>
+
+                                    <option value="N/A">
+                                        N/A
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>Responsible Person</label>
+
+                                <input
+                                    type="text"
+                                    name="responsible"
+                                    placeholder="Responsible person">
+
+                            </div>
+
+
+                            <div class="full">
+
+                                <label>
+                                    Finding / Observation
+                                </label>
+
+                                <textarea
+                                    name="finding"
+                                    placeholder="Record your observation or finding"></textarea>
+
+                            </div>
+
+
+                            <div class="full">
+
+                                <label>
+                                    Corrective Action
+                                </label>
+
+                                <textarea
+                                    name="action"
+                                    placeholder="Required corrective action"></textarea>
+
+                            </div>
+
+
+                            <div>
+
+                                <label>
+                                    Target Date
+                                </label>
+
+                                <input
+                                    type="date"
+                                    name="target_date">
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endfor %}
+
+
+            <!-- CUSTOM QUESTIONS -->
+
+            <h2 style="margin-top:35px;">
+                Custom Audit Questions
+            </h2>
+
+            <div id="customQuestions"></div>
+
+            <button
+                type="button"
+                class="button secondary"
+                onclick="addCustomQuestion()">
+
+                + Add Custom Question
+
+            </button>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="button">
+
+            Download Excel Audit
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<script>
+
+    function updateSummary() {
+
+        const statuses =
+            document.querySelectorAll(".status-select");
+
+        let compliant = 0;
+        let partial = 0;
+        let nonCompliant = 0;
+
+        statuses.forEach(function(select) {
+
+            if (select.value === "Compliant") {
+                compliant++;
+            }
+
+            if (select.value === "Partially Compliant") {
+                partial++;
+            }
+
+            if (select.value === "Non-Compliant") {
+                nonCompliant++;
+            }
+
+        });
+
+        const total = statuses.length;
+
+        const applicable =
+            compliant + partial + nonCompliant;
+
+        let score = 0;
+
+        if (applicable > 0) {
+
+            score =
+                ((compliant + partial * 0.5)
+                / applicable) * 100;
+
+        }
+
+        document.getElementById(
+            "totalQuestions"
+        ).textContent = total;
+
+        document.getElementById(
+            "compliantCount"
+        ).textContent = compliant;
+
+        document.getElementById(
+            "partialCount"
+        ).textContent = partial;
+
+        document.getElementById(
+            "nonCompliantCount"
+        ).textContent = nonCompliant;
+
+        document.getElementById(
+            "score"
+        ).textContent = score.toFixed(1) + "%";
+    }
+
+
+    document.addEventListener(
+        "change",
+        function(event) {
+
+            if (
+                event.target.classList.contains(
+                    "status-select"
+                )
+            ) {
+
+                updateSummary();
+
+            }
+
+        }
+    );
+
+
+    function addCustomQuestion() {
+
+        const container =
+            document.getElementById(
+                "customQuestions"
+            );
+
+        const div =
+            document.createElement("div");
+
+        div.className = "question custom-question";
+
+        div.innerHTML = `
+
+            <div class="question-grid">
+
+                <div class="full">
+
+                    <label>
+                        Custom Question
+                    </label>
+
+                    <input
+                        type="text"
+                        name="question"
+                        placeholder="Enter audit question"
+                        required>
+
+                    <input
+                        type="hidden"
+                        name="category"
+                        value="Custom">
+
+                </div>
+
+
+                <div>
+
+                    <label>Status</label>
+
+                    <select
+                        name="status"
+                        class="status-select">
+
+                        <option value="">
+                            Select status
+                        </option>
+
+                        <option value="Compliant">
+                            Compliant
+                        </option>
+
+                        <option value="Partially Compliant">
+                            Partially Compliant
+                        </option>
+
+                        <option value="Non-Compliant">
+                            Non-Compliant
+                        </option>
+
+                        <option value="N/A">
+                            N/A
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Responsible Person
+                    </label>
+
+                    <input
+                        type="text"
+                        name="responsible">
+
+                </div>
+
+
+                <div class="full">
+
+                    <label>
+                        Finding / Observation
+                    </label>
+
+                    <textarea
+                        name="finding"></textarea>
+
+                </div>
+
+
+                <div class="full">
+
+                    <label>
+                        Corrective Action
+                    </label>
+
+                    <textarea
+                        name="action"></textarea>
+
+                </div>
+
+
+                <div>
+
+                    <label>
+                        Target Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="target_date">
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="remove-button"
+                onclick="this.closest('.question').remove(); updateSummary();">
+
+                Remove
+
+            </button>
+        `;
+
+        container.appendChild(div);
+
+        updateSummary();
+    }
+
+
+    updateSummary();
+
+</script>
+
+</body>
+
+</html>
