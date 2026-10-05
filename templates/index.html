@@ -6,17 +6,21 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
 
-<title>
-Environmental Audit Checklist
-</title>
+<meta name="theme-color" content="#173b2b">
+
+<title>Environmental Audit Checklist</title>
 
 
 <style>
 
 * {
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -28,7 +32,12 @@ body {
     background: #f3f6f4;
 
     color: #24332a;
+
+    line-height: 1.5;
 }
+
+
+/* ---------------- HEADER ---------------- */
 
 header {
 
@@ -36,7 +45,15 @@ header {
 
     color: white;
 
-    padding: 18px 5%;
+    padding: 16px 5%;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
 
 header a {
@@ -46,7 +63,12 @@ header a {
     text-decoration: none;
 
     font-weight: bold;
+
+    font-size: 17px;
 }
+
+
+/* ---------------- MAIN CONTAINER ---------------- */
 
 .container {
 
@@ -54,20 +76,37 @@ header a {
 
     margin: auto;
 
-    padding: 30px 20px;
+    padding: 30px 20px 60px;
 }
 
 h1 {
 
     margin-bottom: 5px;
+
+    font-size: 32px;
+}
+
+h2 {
+
+    margin-top: 0;
+
+    font-size: 22px;
+}
+
+h3 {
+
+    margin-top: 0;
 }
 
 .subtitle {
 
     color: #637069;
 
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
+
+
+/* ---------------- CARDS ---------------- */
 
 .card {
 
@@ -75,23 +114,29 @@ h1 {
 
     padding: 25px;
 
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 
-    border-radius: 10px;
+    border-radius: 12px;
 
     box-shadow:
-    0 2px 8px rgba(0,0,0,.06);
+        0 2px 8px rgba(0,0,0,.06);
 }
+
+
+/* ---------------- PROJECT INFORMATION ---------------- */
 
 .project-grid {
 
     display: grid;
 
     grid-template-columns:
-    repeat(2, 1fr);
+        repeat(2, 1fr);
 
-    gap: 15px;
+    gap: 18px;
 }
+
+
+/* ---------------- FORM ELEMENTS ---------------- */
 
 label {
 
@@ -99,7 +144,9 @@ label {
 
     font-weight: bold;
 
-    margin-bottom: 6px;
+    margin-bottom: 7px;
+
+    font-size: 14px;
 }
 
 input,
@@ -108,29 +155,48 @@ select {
 
     width: 100%;
 
-    padding: 10px;
+    padding: 12px;
 
     border:
-    1px solid #ccd5cf;
+        1px solid #ccd5cf;
 
-    border-radius: 6px;
+    border-radius: 7px;
 
-    font-size: 14px;
+    font-size: 15px;
+
+    font-family: inherit;
+
+    background: white;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+
+    outline: none;
+
+    border-color: #286a46;
+
+    box-shadow:
+        0 0 0 2px rgba(40,106,70,.12);
 }
 
 textarea {
 
-    min-height: 75px;
+    min-height: 90px;
 
     resize: vertical;
 }
+
+
+/* ---------------- CATEGORY SELECTION ---------------- */
 
 .category-picker {
 
     display: grid;
 
     grid-template-columns:
-    repeat(2, 1fr);
+        repeat(2, 1fr);
 
     gap: 10px;
 }
@@ -138,13 +204,24 @@ textarea {
 .category-option {
 
     border:
-    1px solid #d8e0da;
+        1px solid #d8e0da;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
-    padding: 12px;
+    padding: 13px;
 
     background: #fafcfb;
+
+    cursor: pointer;
+
+    transition: .15s;
+}
+
+.category-option:hover {
+
+    border-color: #286a46;
+
+    background: #f1f7f3;
 }
 
 .category-option input {
@@ -152,25 +229,114 @@ textarea {
     width: auto;
 
     margin-right: 8px;
+
+    transform: scale(1.15);
 }
+
+
+/* ---------------- CATEGORY CONTROLS ---------------- */
+
+.category-controls {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 15px;
+}
+
+.small-button {
+
+    border: 1px solid #286a46;
+
+    background: white;
+
+    color: #286a46;
+
+    padding: 9px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+}
+
+.small-button:hover {
+
+    background: #eef5f0;
+}
+
+
+/* ---------------- NOTICE ---------------- */
+
+.notice {
+
+    padding: 14px 16px;
+
+    background: #eef5f0;
+
+    border-left:
+        4px solid #286a46;
+
+    margin-bottom: 18px;
+
+    border-radius: 5px;
+
+    color: #435248;
+}
+
+
+/* ---------------- EMPTY MESSAGE ---------------- */
+
+.empty {
+
+    padding: 18px;
+
+    background: #fff7e6;
+
+    border-left:
+        4px solid #c58a20;
+
+    margin-bottom: 20px;
+
+    border-radius: 6px;
+
+    display: none;
+}
+
+
+/* ---------------- QUESTIONS ---------------- */
 
 .category-title {
 
     background: #e8f0eb;
 
-    padding: 14px;
+    padding: 14px 16px;
 
-    border-radius: 7px;
+    border-radius: 8px;
 
     margin-top: 25px;
+
+    border-left:
+        4px solid #286a46;
+}
+
+.category-title h3 {
+
+    margin: 0;
+
+    font-size: 18px;
 }
 
 .question {
 
     border:
-    1px solid #dce3de;
+        1px solid #dce3de;
 
-    border-radius: 8px;
+    border-radius: 9px;
 
     padding: 18px;
 
@@ -183,7 +349,9 @@ textarea {
 
     font-weight: bold;
 
-    margin-bottom: 15px;
+    margin-bottom: 16px;
+
+    font-size: 15px;
 }
 
 .question-grid {
@@ -191,9 +359,9 @@ textarea {
     display: grid;
 
     grid-template-columns:
-    1fr 1fr;
+        1fr 1fr;
 
-    gap: 12px;
+    gap: 14px;
 }
 
 .full {
@@ -201,12 +369,23 @@ textarea {
     grid-column: 1 / -1;
 }
 
+
+/* ---------------- STATUS ---------------- */
+
+.status-select {
+
+    font-weight: bold;
+}
+
+
+/* ---------------- SUMMARY ---------------- */
+
 .summary {
 
     display: grid;
 
     grid-template-columns:
-    repeat(5, 1fr);
+        repeat(5, 1fr);
 
     gap: 10px;
 
@@ -215,25 +394,81 @@ textarea {
 
 .summary-box {
 
-    background: white;
+    background: #f8faf9;
 
-    padding: 15px;
+    padding: 13px 8px;
 
     border-radius: 8px;
 
     text-align: center;
 
     border:
-    1px solid #e0e5e1;
+        1px solid #e0e5e1;
 }
 
 .summary-number {
 
-    font-size: 24px;
+    font-size: 23px;
 
     font-weight: bold;
 
-    margin-top: 5px;
+    margin-top: 4px;
+}
+
+.progress-container {
+
+    margin-top: 10px;
+}
+
+.progress-label {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    font-size: 13px;
+
+    color: #637069;
+
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+
+    width: 100%;
+
+    height: 9px;
+
+    background: #e0e5e1;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.progress-fill {
+
+    height: 100%;
+
+    width: 0%;
+
+    background: #286a46;
+
+    transition: width .2s;
+}
+
+
+/* ---------------- BUTTONS ---------------- */
+
+.actions {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 20px;
 }
 
 .button {
@@ -242,7 +477,7 @@ textarea {
 
     padding: 13px 22px;
 
-    border-radius: 6px;
+    border-radius: 7px;
 
     background: #286a46;
 
@@ -251,6 +486,8 @@ textarea {
     font-weight: bold;
 
     cursor: pointer;
+
+    font-size: 14px;
 }
 
 .button:hover {
@@ -268,43 +505,55 @@ textarea {
     background: #7b3f3f;
 }
 
-.notice {
 
-    padding: 15px;
+/* ---------------- CUSTOM QUESTION ---------------- */
 
-    background: #eef5f0;
-
-    border-left:
-    4px solid #286a46;
-
-    margin-bottom: 20px;
-}
-
-.empty {
-
-    padding: 20px;
-
-    background: #fff7e6;
+.custom-question {
 
     border-left:
-    4px solid #c58a20;
-
-    border-radius: 6px;
-
-    display: none;
+        4px solid #59655e;
 }
 
-.actions {
 
-    display: flex;
-
-    gap: 10px;
-
-    flex-wrap: wrap;
-}
-
+/* ---------------- MOBILE ---------------- */
 
 @media(max-width:700px) {
+
+    .container {
+
+        padding:
+            20px 12px 45px;
+    }
+
+    header {
+
+        padding:
+            14px 16px;
+    }
+
+    h1 {
+
+        font-size: 27px;
+    }
+
+    h2 {
+
+        font-size: 20px;
+    }
+
+    .subtitle {
+
+        font-size: 14px;
+    }
+
+    .card {
+
+        padding: 17px;
+
+        border-radius: 10px;
+
+        margin-bottom: 15px;
+    }
 
     .project-grid,
     .question-grid,
@@ -313,13 +562,85 @@ textarea {
         grid-template-columns: 1fr;
     }
 
+    .full {
+
+        grid-column: auto;
+    }
+
     .summary {
 
         grid-template-columns:
-        1fr 1fr;
+            repeat(2, 1fr);
     }
 
-    .full {
+    .summary-box:last-child {
+
+        grid-column: 1 / -1;
+    }
+
+    .category-title {
+
+        margin-top: 20px;
+    }
+
+    .question {
+
+        padding: 15px;
+    }
+
+    input,
+    textarea,
+    select {
+
+        font-size: 16px;
+
+        padding: 13px;
+    }
+
+    .button {
+
+        width: 100%;
+
+        padding: 14px;
+
+        font-size: 15px;
+    }
+
+    .actions {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        position: sticky;
+
+        bottom: 0;
+
+        background: #f3f6f4;
+
+        padding: 10px 0;
+
+        z-index: 500;
+    }
+
+    .small-button {
+
+        flex: 1;
+    }
+
+}
+
+
+/* ---------------- VERY SMALL PHONES ---------------- */
+
+@media(max-width:380px) {
+
+    .summary {
+
+        grid-template-columns: 1fr;
+    }
+
+    .summary-box:last-child {
 
         grid-column: auto;
     }
@@ -353,8 +674,8 @@ Environmental Audit Checklist
 
 <p class="subtitle">
 
-Select the environmental topics
-relevant to your audit.
+Create and complete a focused environmental audit
+checklist for your site.
 
 </p>
 
@@ -383,7 +704,8 @@ Project Name
 <input
 type="text"
 name="project_name"
-placeholder="Enter project name">
+placeholder="Enter project name"
+autocomplete="organization">
 
 </div>
 
@@ -411,7 +733,8 @@ Auditor
 <input
 type="text"
 name="auditor_name"
-placeholder="Auditor name">
+placeholder="Auditor name"
+autocomplete="name">
 
 </div>
 
@@ -445,9 +768,33 @@ name="audit_date">
 
 <div class="notice">
 
-Choose one or more topics.
-The checklist below will contain
-only the categories you select.
+Choose one or more environmental topics.
+Only the selected categories will appear
+in your audit checklist.
+
+</div>
+
+
+<div class="category-controls">
+
+<button
+type="button"
+class="small-button"
+onclick="selectAllCategories()">
+
+Select All
+
+</button>
+
+
+<button
+type="button"
+class="small-button"
+onclick="clearAllCategories()">
+
+Clear All
+
+</button>
 
 </div>
 
@@ -501,9 +848,8 @@ style="display:none;"
 
 <div class="notice">
 
-For each question, select a status and
-record findings or corrective actions
-where applicable.
+For each question, select a status and record
+findings or corrective actions where applicable.
 
 </div>
 
@@ -516,6 +862,14 @@ where applicable.
 Custom Audit Questions
 
 </h3>
+
+
+<p style="color:#637069;font-size:14px;">
+
+Add your own question if something specific
+to the site is not covered by the standard checklist.
+
+</p>
 
 
 <div id="customQuestions"></div>
@@ -635,8 +989,34 @@ id="score">
 
 </div>
 
+</div>
+
+
+<div class="progress-container">
+
+<div class="progress-label">
+
+<span>
+Assessment Progress
+</span>
+
+<span id="progressText">
+0%
+</span>
 
 </div>
+
+<div class="progress-bar">
+
+<div
+class="progress-fill"
+id="progressFill">
+</div>
+
+</div>
+
+</div>
+
 
 </div>
 
@@ -686,8 +1066,43 @@ const checklist =
 {{ checklist|tojson }};
 
 
-function buildChecklist() {
+/* ---------------- CATEGORY FUNCTIONS ---------------- */
 
+function selectAllCategories() {
+
+    document
+        .querySelectorAll(
+            'input[name="selected_category"]'
+        )
+        .forEach(
+            checkbox => {
+                checkbox.checked = true;
+            }
+        );
+
+    buildChecklist();
+}
+
+
+function clearAllCategories() {
+
+    document
+        .querySelectorAll(
+            'input[name="selected_category"]'
+        )
+        .forEach(
+            checkbox => {
+                checkbox.checked = false;
+            }
+        );
+
+    buildChecklist();
+}
+
+
+/* ---------------- BUILD CHECKLIST ---------------- */
+
+function buildChecklist() {
 
     const selected = [
 
@@ -711,7 +1126,6 @@ function buildChecklist() {
 
     selected.forEach(
         category => {
-
 
             const title =
                 document.createElement(
@@ -746,7 +1160,6 @@ function buildChecklist() {
 
                 }
             );
-
 
         }
     );
@@ -793,11 +1206,12 @@ function buildChecklist() {
 }
 
 
+/* ---------------- QUESTION ---------------- */
+
 function createQuestion(
     category,
     question
 ) {
-
 
     const div =
         document.createElement(
@@ -938,8 +1352,9 @@ function createQuestion(
 }
 
 
-function addCustomQuestion() {
+/* ---------------- CUSTOM QUESTIONS ---------------- */
 
+function addCustomQuestion() {
 
     const div =
         document.createElement(
@@ -1036,6 +1451,7 @@ function addCustomQuestion() {
 
                 <textarea
                     name="finding"
+                    placeholder="Record your observation"
                 ></textarea>
 
             </div>
@@ -1049,6 +1465,7 @@ function addCustomQuestion() {
 
                 <textarea
                     name="action"
+                    placeholder="Required corrective action"
                 ></textarea>
 
             </div>
@@ -1081,7 +1498,7 @@ function addCustomQuestion() {
             "
         >
 
-            Remove
+            Remove Question
 
         </button>
 
@@ -1099,6 +1516,8 @@ function addCustomQuestion() {
 
 }
 
+
+/* ---------------- SUMMARY ---------------- */
 
 document.addEventListener(
     "change",
@@ -1120,7 +1539,6 @@ document.addEventListener(
 
 function updateSummary() {
 
-
     const statuses =
         document.querySelectorAll(
             ".status-select"
@@ -1133,16 +1551,19 @@ function updateSummary() {
 
     let nonCompliant = 0;
 
+    let assessed = 0;
+
 
     statuses.forEach(
         select => {
 
             if (
-                select.value ===
-                "Compliant"
+                select.value === "Compliant"
             ) {
 
                 compliant++;
+
+                assessed++;
 
             }
 
@@ -1154,15 +1575,18 @@ function updateSummary() {
 
                 partial++;
 
+                assessed++;
+
             }
 
 
             if (
-                select.value ===
-                "Non-Compliant"
+                select.value === "Non-Compliant"
             ) {
 
                 nonCompliant++;
+
+                assessed++;
 
             }
 
@@ -1192,6 +1616,12 @@ function updateSummary() {
         : 0;
 
 
+    const progress =
+        total
+        ? (assessed / total) * 100
+        : 0;
+
+
     document.getElementById(
         "totalQuestions"
     ).textContent = total;
@@ -1218,13 +1648,26 @@ function updateSummary() {
     ).textContent =
         score.toFixed(1) + "%";
 
+
+    document.getElementById(
+        "progressText"
+    ).textContent =
+        Math.round(progress) + "%";
+
+
+    document.getElementById(
+        "progressFill"
+    ).style.width =
+        progress + "%";
+
 }
 
+
+/* ---------------- EXPORT ---------------- */
 
 function submitExport(
     action
 ) {
-
 
     const selected =
         document.querySelectorAll(
@@ -1259,10 +1702,11 @@ function submitExport(
 }
 
 
+/* ---------------- SECURITY ---------------- */
+
 function escapeHtml(
     value
 ) {
-
 
     return value.replace(
         /[&<>"']/g,
@@ -1298,6 +1742,8 @@ function escapeAttr(
 
 }
 
+
+/* ---------------- INITIALIZE ---------------- */
 
 buildChecklist();
 

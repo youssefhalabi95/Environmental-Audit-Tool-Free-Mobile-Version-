@@ -6,11 +6,17 @@
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+      content="width=device-width, initial-scale=1.0">
+
+<meta name="theme-color" content="#173b2b">
+
+<meta name="description"
+      content="Create environmental audit checklists, record findings and corrective actions, and export professional audit records.">
 
 <title>
 Environmental Audit Checklist Generator
 </title>
+
 
 <style>
 
@@ -27,7 +33,12 @@ body {
     background: #f4f7f5;
 
     color: #24332a;
+
+    line-height: 1.5;
 }
+
+
+/* HEADER */
 
 header {
 
@@ -35,39 +46,64 @@ header {
 
     color: white;
 
-    padding: 20px 8%;
+    padding: 18px 7%;
 }
 
 .logo {
 
-    font-size: 22px;
+    font-size: 21px;
 
     font-weight: bold;
 }
 
+
+/* HERO */
+
 .hero {
 
-    max-width: 1000px;
+    max-width: 950px;
 
     margin: auto;
 
-    padding: 80px 20px;
+    padding: 80px 20px 60px;
 
     text-align: center;
 }
 
+.badge {
+
+    display: inline-block;
+
+    background: #e3efe7;
+
+    color: #286a46;
+
+    padding: 7px 13px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    margin-bottom: 18px;
+}
+
 .hero h1 {
 
-    font-size: 44px;
+    font-size: 46px;
 
-    margin-bottom: 20px;
+    line-height: 1.15;
+
+    margin:
+        0 0 20px;
 }
 
 .hero p {
 
-    font-size: 19px;
+    font-size: 18px;
 
-    line-height: 1.6;
+    line-height: 1.7;
 
     max-width: 760px;
 
@@ -82,7 +118,7 @@ header {
 
     margin-top: 28px;
 
-    padding: 15px 28px;
+    padding: 15px 30px;
 
     background: #286a46;
 
@@ -95,6 +131,14 @@ header {
     font-weight: bold;
 }
 
+.button:hover {
+
+    opacity: .9;
+}
+
+
+/* FEATURES */
+
 .features {
 
     max-width: 1000px;
@@ -106,7 +150,7 @@ header {
     display: grid;
 
     grid-template-columns:
-    repeat(3, 1fr);
+        repeat(3, 1fr);
 
     gap: 20px;
 }
@@ -120,7 +164,14 @@ header {
     border-radius: 10px;
 
     box-shadow:
-    0 2px 8px rgba(0,0,0,.06);
+        0 2px 8px rgba(0,0,0,.06);
+}
+
+.feature-icon {
+
+    font-size: 28px;
+
+    margin-bottom: 10px;
 }
 
 .feature h3 {
@@ -128,15 +179,86 @@ header {
     margin-top: 0;
 }
 
+.feature p {
+
+    color: #637069;
+}
+
+
+/* HOW IT WORKS */
+
+.how {
+
+    max-width: 1000px;
+
+    margin: 40px auto;
+
+    padding: 20px;
+}
+
+.how h2 {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+}
+
+.steps {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+.step {
+
+    text-align: center;
+
+    background: white;
+
+    padding: 25px;
+
+    border-radius: 10px;
+}
+
+.step-number {
+
+    width: 38px;
+
+    height: 38px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: auto auto 12px;
+
+    border-radius: 50%;
+
+    background: #286a46;
+
+    color: white;
+
+    font-weight: bold;
+}
+
+
+/* FOOTER */
+
 footer {
 
-    margin-top: 70px;
+    margin-top: 60px;
 
     background: #173b2b;
 
     color: white;
 
-    padding: 25px;
+    padding: 28px;
 
     text-align: center;
 }
@@ -148,16 +270,51 @@ footer a {
     margin: 0 10px;
 }
 
+
+/* MOBILE */
+
 @media(max-width:700px) {
+
+    header {
+
+        padding:
+            15px 18px;
+    }
+
+    .hero {
+
+        padding:
+            55px 18px 40px;
+    }
 
     .hero h1 {
 
         font-size: 34px;
     }
 
-    .features {
+    .hero p {
+
+        font-size: 16px;
+    }
+
+    .button {
+
+        width: 100%;
+
+        padding: 14px;
+    }
+
+    .features,
+    .steps {
 
         grid-template-columns: 1fr;
+    }
+
+    .features,
+    .how {
+
+        padding:
+            15px;
     }
 
 }
@@ -181,23 +338,31 @@ Environmental Audit Toolkit
 
 <section class="hero">
 
+
+<div class="badge">
+ENVIRONMENTAL PROFESSIONAL TOOL
+</div>
+
+
 <h1>
 Environmental Audit Checklist Generator
 </h1>
 
+
 <p>
 
 Create a focused environmental audit checklist
-by selecting only the topics relevant to your site.
-
-Record findings and corrective actions, then export
-your audit to Excel or PDF.
+for your project or site. Select the topics you need,
+record findings and corrective actions, and export
+your completed audit to Excel or PDF.
 
 </p>
+
 
 <a href="/tool" class="button">
 Create an Audit
 </a>
+
 
 </section>
 
@@ -207,6 +372,10 @@ Create an Audit
 
 <div class="feature">
 
+<div class="feature-icon">
+✓
+</div>
+
 <h3>
 Choose Your Topics
 </h3>
@@ -214,7 +383,7 @@ Choose Your Topics
 <p>
 
 Select only the environmental categories
-you need for the audit.
+relevant to your audit.
 
 </p>
 
@@ -223,13 +392,17 @@ you need for the audit.
 
 <div class="feature">
 
+<div class="feature-icon">
+📝
+</div>
+
 <h3>
 Record Findings
 </h3>
 
 <p>
 
-Track compliance status, observations,
+Record compliance status, observations,
 corrective actions, responsible persons
 and target dates.
 
@@ -240,14 +413,18 @@ and target dates.
 
 <div class="feature">
 
+<div class="feature-icon">
+↓
+</div>
+
 <h3>
-Export
+Export Your Audit
 </h3>
 
 <p>
 
-Download the completed audit as an
-Excel workbook or professional PDF.
+Download your completed audit as an
+Excel workbook or PDF report.
 
 </p>
 
@@ -257,19 +434,93 @@ Excel workbook or professional PDF.
 </section>
 
 
+<section class="how">
+
+
+<h2>
+How It Works
+</h2>
+
+
+<div class="steps">
+
+
+<div class="step">
+
+<div class="step-number">
+1
+</div>
+
+<h3>
+Select
+</h3>
+
+<p>
+Choose the environmental topics relevant
+to your site.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+2
+</div>
+
+<h3>
+Audit
+</h3>
+
+<p>
+Complete the checklist and record
+findings and corrective actions.
+</p>
+
+</div>
+
+
+<div class="step">
+
+<div class="step-number">
+3
+</div>
+
+<h3>
+Export
+</h3>
+
+<p>
+Download your completed audit for
+further use and reporting.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
 <footer>
+
 
 <a href="/about">
 About
 </a>
 
+
 <a href="/privacy">
 Privacy Policy
 </a>
 
+
 <p>
 Environmental Audit Toolkit
 </p>
+
 
 </footer>
 
